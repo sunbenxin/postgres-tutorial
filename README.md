@@ -96,3 +96,75 @@
     an array constructor
     a row constructor
     another value expression in parentheses
+- Tokens are normally separeted by whitespace(space,tab,newline),but if there is no ambiguity(which is generally only the case if a 
+    a special character is adjacent to some other tken type)
+
+- conmments can occur in sql input. equivalent to whitespace.
+
+- The sql syntax is not very consistent regarding what tokens identify commands and which 
+    are operands or parameters.The first few tokens are generally the command name.
+
+- sql identifiers and key words must begin with a letter(a-z,but also letters with diacritical marks and non-Latin letters) or an underscore.
+    subsequent characters in an identifier or key workd can be letters,underscores,digits or dollar signs.(dollar signs are not allowed in sql standard)
+
+- sql standard will not define a key word that constains digits or starts or ends with an underscore.
+
+- The system uses no more than NAMEDATALEN-1 bytes of an identifier.
+
+- key words and unquoted identifiers are case insensive.
+
+- the delimited identifier or quoted identifier is formed by enclosing an arbitrary sequence fo characters in double-quotes. 
+- quoted identifiers can contain any character,except the character with code zero.(to include a double quote ,write tow double quotes)
+
+- there are three kinds of implicitly-typed constants in pg:strings,bit strings,and numbers.
+
+- indeed no characters inside a dollar-quoted string are ever escaped.
+- tag of dollar-quoted is case sensitive.
+
+- A dollar-quoted string that follows a keyword or identifier must be separated from it by whitespace;otherwise the dollar quoting delimiter would be taken as part of the preceding identifier.
+
+- Dollar quoting is not part of SQL standard.
+
+- A constant of an arbitrary type can be entered using any one of the following notations:
+
+    type 'string'
+    'string' ::type
+    CAST ('string' AS type)
+    typename( 'string' ) // not all type names can be used in this way
+
+    The ::,CAST() and function-call syntax can also be used to specify run-time type conversions of arbitrary expressions.
+    to avoid syntactic ambiguity,the type 'string' syntax can only be used to specify the type of a simple literal constant. Another restriction on the type 'string' syntax is that 
+    it does not work for array tpes;use :: or CAST() to specify the type of an array constant.
+
+- The result of a value expression is sometimes called a scallar, to distinguish it from the result of a table expression.
+
+- A positional parameter reference is used to indicate a value that is supplied externally to an sql statement.
+
+- expression[subscript] or expression[lower_subscript:upper_subscript]
+    each subscript is an expression,which must yield an integer value.
+
+- (arrayfunction(a,b))[42] : the parentheses is required.
+
+- If an expression yields a value of a composite type(row type),then a specific field of the row can be extracted by writing expression.fieldname
+
+- Aggregate expression represents the application of an aggregate function across the rows selected by a query.
+
+- most aggregate functions ignore null inputs.this can be assumed to be true, unless otherwise specified,for all built-in aggregates.
+
+- oridinaril, the input rows are fed to the aggregate function in an unspecified order. order_by_clause can be used to specify the desired ordering.
+
+- If filter is specified, then only the input rows for which the filter_clause evaluates to true are fed to the aggregate function.
+
+- An aggregate expression can only apppear in the result list or HAVING clause of a SELECT command.
+  it is forbidden in other causes,such as where,because those clauses are logically evaluated before the results of aggregates are formed
+
+- When an aggregate expression appears in a subquery, the aggregate is normally evaluated over the rows of the subquery.But an exception occurs if the aggregate's 
+    arguments contain only outer-level variables: the aggregate then belongs to the nearest such outer level,and is evaluated over t he rows of that query.
+    the aggragtage expression as a whole is then an outer reference fro the subquery it appears in and act as a constant over any one evaluatioin of that subquery.
+
+- A window function clal represents the application of an aggregate-like function over some portion of the rows selected by a query.Unlike regular aggregate function calls,this
+    is not tied to grouping of the selected rows into a single output row- each row remains separate in the query output. 
+
+- the window function is able to scan all the rows that would be part of the current rows group according to the grouping specification(PARTITION BY list) of the window function call.
+
+
