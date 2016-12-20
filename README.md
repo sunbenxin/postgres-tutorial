@@ -68,5 +68,31 @@
 
 
 
+## sql syntax
 
-- 
+- sql input consists of a sequence of commands. a command is composed of sequence of tokens,terminated by a semicolon(;)
+    which tokens are valid depends on the syntax of the particular command
+
+- a token can be a key word, and identifier, a quoted identifier, aliteral or a special character symbol.
+
+- a string constant in SQL is an arbitrary sequence of characters bounded by single quotes. to include a single-quote character within
+    a string constant, write two adjacent single quotes.
+
+- bit-string constants looks like regular string constants with a B(upper or lower case)
+
+- value expressions are used in variety of contexts,a value expression is one of following:
+    a constant or literal value
+    a column reference
+    a positional parameter reference , in the body of a function definition or prepared statement
+    a subscripted expression
+    a filed selectioin expression
+    an operator invocation
+    a function call
+    an aggregate expression
+    a window function call
+    a type cast
+    a collation expression
+    a scalar subquery
+    an array constructor
+    a row constructor
+    another value expression in parentheses
