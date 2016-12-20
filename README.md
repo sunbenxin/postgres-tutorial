@@ -64,6 +64,8 @@
 
 
 
+-- schema fast restore
+
 
 
 
