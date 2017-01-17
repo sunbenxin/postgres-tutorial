@@ -168,3 +168,7 @@
 - the window function is able to scan all the rows that would be part of the current rows group according to the grouping specification(PARTITION BY list) of the window function call.
 
 
+### note
+
+- table and query will cache, so when alter a table need fresh the function return setof the table in an transaction to low the influence during the cache restruct.
+
