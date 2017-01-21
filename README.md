@@ -325,3 +325,8 @@ Columns returned by table functions can be included in SELECT,JOIN OR WHERE clau
 
 
 ### overview of PosgreSQL internal
+
+### note
+
+- table and query will cache, so when alter a table need fresh the function return setof the table in an transaction to low the influence during the cache restruct.
+
