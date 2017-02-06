@@ -168,6 +168,72 @@
 - the window function is able to scan all the rows that would be part of the current rows group according to the grouping specification(PARTITION BY list) of the window function call.
 
 
+### master/slave
+- There are three fundamentally different approaches to backing up PostgreSQL data:
+    - SQL dump : generate a file with SQL commands,file can in other formats, need read access to all tables that you want to back up.by default pg_dump will default connect with the database user name that is equal to the current operating system user name.
+        not server-version-specific. Pg_dump does not block other operations on the database while it is working.(Exceptions are thos operations that need to operate with an exclusive lock,such as most forms of ALTER TABLE)
+    - File system level backup
+    - Continuous archiving
+
+- SQL dump can use psql command to restore a dump,Need to create db by yourself before executing psql.
+    non-text file dumps are restored usig the pg_restore utilty.
+
+    psql dbname < infile
+
+- Before restorign an SQL dump, all the users who own objects or were granted permissions on objects in the dumped atabase must already exit.
+- By default th epsql script will continue to execute after an SQL error is encountered. use ON_ERROR_STOP variable set to alter that behavior(ON_ERROR_STOP=on).
+- Either way, you will only have a partially restored database.Alternatively,you can specify that the whole dump should be restored as a single transaction,this mode can be specified by passing the -1 or --single-transaction command line options to psql.
+
+- The ability of pg_dump and psql to write to or read from ipes makes it possible to dump a database directly from one server to another
+
+    pg_dump -h host1 dbname | psql -h host2 dbname
+
+- After restoring a backup, it is wise to run ANALYZE on each database so the query optimizer has useful statistics.
+
+- pg_dumpall backs up each database in a given cluster,and also preserves cluster-wide data such as role and tablespace definitions.
+
+    pg_dumpall > outfile
+
+    psql -f infile postgres
+
+- pg_dumpall can ganuranty each database will be internall consistent, the snapshots of different databases are not sysnchroized.
+
+    pg_dump dbname | gzip > filename.gz
+    gunzip -c filename.gz | psql dbname
+
+    pg_dump dbname | split -b 1m - filename
+    cat filename* | pslq dbname
+
+
+- use pg_dump custom dump format.(need system with the zlib compression library installed)
+
+    pg_dump -Fc dbname > filename
+
+- a custom-format dump is not a script for psql, but instead must be restored with pg_restore
+
+    pg_restore -d dbname filename
+
+- Use pg_dump's parallel dump features.Parallel dumps are only supported for the "directory" archive format
+
+    pg_dump -j num -F d -f out.dir dbname
+
+- File system level backup,there are two restrictions.
+        - the database server must be shut down in order to get a usable backup.(in part because tar and sililar tools do not take an atomic snapshot of the state of the file system,
+            but also because of internal buffering within the server),must also need to shut down the server before restoring the data.
+        - only work fro complete backup and restoration of an entire database cluster.
+
+    tar -cf backup.tar /usr/local/pgsql/data
+
+- An alternative file-system backup approach is to make a "consistent snapshot" of the data directory.this will work even while teh database is running.
+
+- Another option is to use rsync to perform a file system backup.This is done by first running rsync while the database server is running,then shutting down the database server logn enough to do an rsync --checksum(--checksum is necessary because rsync only has file modification-tie granularity of one second).
+    this method alows a file system backup to be performed with minimal downtime.
+
+- Pg maintains a write ahead log (WAL),records every change made to the database's data files. This log exists primarily for crash-safety purposes.
+
+
+
+
 ### note
 
 - table and query will cache, so when alter a table need fresh the function return setof the table in an transaction to low the influence during the cache restruct.
