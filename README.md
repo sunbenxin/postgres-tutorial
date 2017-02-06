@@ -234,6 +234,162 @@
 
 
 
+# new
+
+## Sql Syntax
+
+### Lexical structure
+
+### Value expressions
+
+### Calling functions
+
+
+## Data Definition
+
+## Data manipulation
+
+### Insert
+### Update
+### Delete
+
+## Queries
+
+### overview
+- the process of retrieving or the command to retrieve data from
+a database called a query.In sql the SELECT command is used to specify queries.
+
+- SELECT COMMAND syntax:
+
+    [WITH with_queries] SELECT select_list FROM table_expression [ sort_specification]
+
+### Table expressions
+
+- a table expression computes a table. It can followed by where, group by and having clauses.
+and this specify a pipeline of successive transformations performed on the table derived in the FROM clause.
+all these transfromations produce a virtual table that provides the rows that are passed to the select list to compute the output rows of the query.
+
+- The From clause derives a table from one or more other tables given in a comma-separated table reference list.
+
+    FROM table_reference [, table_reference[, ...]]
+
+- a table_reference can be a table name(possibly schma-qualified). 
+or derived table such as a subquery, a join construct, or complex combinations of these.
+
+- if more than one table reference is listed in the FROM clause,the tables are cross-joined.
+the result of the FROM list is an intermediate virtual table that can then be subject to transformations by 
+the WHERE, GROUP BY , and HAVING clauses and is finally the result of the overall table expression.
+
+- When a table reference names a table that is the parent of a table inheritance hierarchy,the table reference produces rows of not only
+that table but all of its descendata tables,unless the key word ONLY precedes the table name.
+instead of writing ONLY before the table name, you can write * after the table name to explicitly specify that descendant tables are included.
+writing * is not necessary since that behavior is the default.
+
+- A joined table is a table derived from two other (real or derived) tables according to the rules of the particular join type. Inner,outer,and cross-joins.
+
+    T1 join_type T2 [ join_condition ]
+
+- join of all types can be chained together,or nested.
+
+- cross join: will contain a row consisting of all columns in T1 followed by all columns in T2.
+
+-  join binds more tightly than comma.
+
+    T1 { [INNER] | {LEFT | RIGHT | FULL } [OUTER] } JOIN T2 ON boolean_expression
+
+    T1 { [INNER] | {LEFT | RIGHT | FULL } [OUTER] } JOIN T2 USING ( join column list)
+
+    T1 NATURAL { [INNER] | { LEFT | RIGHT | FULL } [ OUTER ]} JOIN T2
+
+- the words INNER and OUTER are optional in all forms.INNER is the default,left ,right and full imply an outer join.
+
+- INNER JOIN: for each row R1 of T1, the joined table has a row for each row in T2 that satifies the join condition with R1.
+
+- LEFT OUTER JOIN:
+- RIGHT OUTER JOIN:
+- FULL OUTER JOIN:
+
+- NATURAL is a shorthand form of USING: it forms a USING list consisting of all column names that appear in both input tables.
+
+- a temporary name can be given to tables and complex table reference ss to be used for referceces to the derived table in the reset of query. this is called a table alias.
+
+    FROM table_reference AS alias
+    FROM table_reference alias
+
+- talbe functions are function that produce a set of rows, made up of either base data types or composite data types.they are used like a table view or subquery in the FROM clause of a query.
+Columns returned by table functions can be included in SELECT,JOIN OR WHERE clauses in the same manner as columns of a table,view,or subquery.
+
+- talbe functions may also be combined using the ROWS FROM syntax with the results returned in parallel columns. the number of result rows in this case is that of the largest function result,with smaller results padded with null values to match.  
+    function_call [WITH ORDINALITY] [[AS] table_alias [(column_alias[,...])]]
+    ROWS FROM (function_call[,...]) [WITH ORIDINALITY] [[AS] table_alias [(column_alias[,...])]]
+
+
+### Select Lists
+### Combining Queries
+### Sorting Rows
+### Limit and offset
+### Values Lists
+### With Queries
+
+
+## Data types
+
+## function and operator
+
+## type conversion
+
+## index
+
+## full text search
+
+## concurrency contorl
+
+## performance tips
+
+## parallel query
+
+## Sever setup and operation
+
+## Server configuration
+
+## client configuration
+
+## client authentication
+
+## database roles
+
+## trigger
+
+## event trigger
+
+## the rule system
+
+## PL/pgSQL Procedural Language
+
+### Overview
+
+### Declarations
+
+### Basic Statements
+
+### control structure
+
+### cursor
+
+### Error and message
+
+
+### trigger procedure
+
+
+### PL/pgSQL under the hood
+
+
+### tips for developing PL/pgSQL
+
+
+### overview of PosgreSQL internal
+
 ### note
 
 - table and query will cache, so when alter a table need fresh the function return setof the table in an transaction to low the influence during the cache restruct.
