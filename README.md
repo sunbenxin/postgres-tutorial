@@ -207,7 +207,7 @@
 
 - use pg_dump custom dump format.(need system with the zlib compression library installed)
 
-    pg_dump -Fc dbname > filename
+pg_dump -Fc dbname > filename
 
 - a custom-format dump is not a script for psql, but instead must be restored with pg_restore
 
@@ -394,3 +394,6 @@ Columns returned by table functions can be included in SELECT,JOIN OR WHERE clau
 
 - table and query will cache, so when alter a table need fresh the function return setof the table in an transaction to low the influence during the cache restruct.
 
+
+- time type of pg:
+- identifier format
