@@ -325,6 +325,8 @@ Columns returned by table functions can be included in SELECT,JOIN OR WHERE clau
 
 
 ### Select Lists
+    - a functioin is a select list.
+
 ### Combining Queries
 ### Sorting Rows
 ### Limit and offset
@@ -397,3 +399,7 @@ Columns returned by table functions can be included in SELECT,JOIN OR WHERE clau
 
 - time type of pg:
 - identifier format
+
+## Summary
+- table names use plural
+- 
